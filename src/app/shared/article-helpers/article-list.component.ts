@@ -18,18 +18,14 @@ import { takeUntil } from "rxjs/operators";
 export class ArticleListComponent implements OnDestroy {
   query!: ArticleListConfig;
   results: Article[] = [];
-  currentPage = 1;
-  totalPages: Array<number> = [];
   loading = LoadingState.NOT_LOADED;
   LoadingState = LoadingState;
   destroy$ = new Subject<void>();
 
-  @Input() limit!: number;
   @Input()
   set config(config: ArticleListConfig) {
     if (config) {
       this.query = config;
-      this.currentPage = 1;
       this.runQuery();
     }
   }
@@ -41,20 +37,9 @@ export class ArticleListComponent implements OnDestroy {
     this.destroy$.complete();
   }
 
-  setPageTo(pageNumber: number) {
-    this.currentPage = pageNumber;
-    this.runQuery();
-  }
-
   runQuery() {
     this.loading = LoadingState.LOADING;
     this.results = [];
-
-    // Create limit and offset filter (if necessary)
-    if (this.limit) {
-      this.query.filters.limit = this.limit;
-      this.query.filters.offset = this.limit * (this.currentPage - 1);
-    }
 
     this.articlesService
       .query(this.query)
@@ -62,12 +47,6 @@ export class ArticleListComponent implements OnDestroy {
       .subscribe((data) => {
         this.loading = LoadingState.LOADED;
         this.results = data.articles;
-
-        // Used from http://www.jstips.co/en/create-range-0...n-easily-using-one-line/
-        this.totalPages = Array.from(
-          new Array(Math.ceil(data.articlesCount / this.limit)),
-          (val, index) => index + 1
-        );
       });
   }
 }
