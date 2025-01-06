@@ -63,4 +63,8 @@ export class FollowButtonComponent implements OnDestroy {
         error: () => (this.isSubmitting = false),
       });
   }
+
+  home() {
+    void this.router.navigate(["/"]);
+  }
 }

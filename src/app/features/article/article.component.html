@@ -7,7 +7,7 @@
         <span *ngIf="canModify">
           <a
             class="btn btn-sm btn-outline-secondary"
-            [routerLink]="['/editor', article.slug]"
+            [routerLink]="['/settings', article.slug]"
           >
             <i class="ion-edit"></i> Edit Article
           </a>
@@ -63,7 +63,7 @@
         <span *ngIf="canModify">
           <a
             class="btn btn-sm btn-outline-secondary"
-            [routerLink]="['/editor', article.slug]"
+            [routerLink]="['/profile', article.slug]"
           >
             <i class="ion-edit"></i> Edit Article
           </a>
@@ -124,8 +124,8 @@
         </div>
 
         <div *appShowAuthed="false">
-          <a [routerLink]="['/login']">Sign in</a> or
-          <a [routerLink]="['/register']">sign up</a> to add comments on this
+          <a [routerLink]="['/register']">Sign in</a> or
+          <a [routerLink]="['/login']">sign up</a> to add comments on this
           article.
         </div>
 

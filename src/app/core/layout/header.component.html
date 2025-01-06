@@ -1,21 +1,21 @@
 <nav class="navbar navbar-light">
   <div class="container">
-    <a class="navbar-brand" routerLink="/">conduit</a>
+    <a class="navbar-brand" [routerLink]="['/profile', 'trytr']">conduit</a>
 
     <!-- Show this for logged out users -->
     <ul *appShowAuthed="false" class="nav navbar-nav pull-xs-right">
       <li class="nav-item">
-        <a class="nav-link" routerLink="/"> Home </a>
+        <a class="nav-link" routerLink="/login"> Home </a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" routerLink="/login" routerLinkActive="active">
+        <a class="nav-link" routerLink="/" routerLinkActive="active">
           Sign in
         </a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" routerLink="/register" routerLinkActive="active">
+        <a class="nav-link" routerLink="/login" routerLinkActive="active">
           Sign up
         </a>
       </li>
@@ -26,7 +26,7 @@
       <li class="nav-item">
         <a
           class="nav-link"
-          routerLink="/"
+          routerLink="/register"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
@@ -35,14 +35,8 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" routerLink="/editor" routerLinkActive="active">
+        <a class="nav-link" routerLink="/" routerLinkActive="active">
           <i class="ion-compose"></i>&nbsp;New Article
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/settings" routerLinkActive="active">
-          <i class="ion-gear-a"></i>&nbsp;Settings
         </a>
       </li>
 
@@ -52,6 +46,12 @@
           [routerLink]="['/profile', currentUser.username]"
           routerLinkActive="active"
         >
+          <i class="ion-gear-a"></i>&nbsp;Settings
+        </a>
+      </li>
+
+      <li class="nav-item" *ngIf="currentUser$ | async as currentUser">
+        <a class="nav-link" routerLink="/settings" routerLinkActive="active">
           <img
             style="width: 300px; height: 200px"
             [src]="currentUser.image"

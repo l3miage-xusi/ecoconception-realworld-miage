@@ -64,4 +64,19 @@ export class FavoriteButtonComponent implements OnDestroy {
         error: () => (this.isSubmitting = false),
       });
   }
+
+  SignIn() {
+    this.userService.isAuthenticated.pipe(
+      switchMap((authenticated) => {
+        if (!authenticated) {
+          void this.router.navigate(["/login"]);
+          return EMPTY;
+        } else {
+          void this.router.navigate(["/"]);
+          return EMPTY;
+        }
+      }),
+      takeUntil(this.destroy$)
+    );
+  }
 }
