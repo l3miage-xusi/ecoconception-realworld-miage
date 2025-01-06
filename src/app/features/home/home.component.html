@@ -1,8 +1,46 @@
+<head>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lobster&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&subset=cyrillic,latin-ext"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      font-size: 72px !important;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    a,
+    .nav-link,
+    .tag-list,
+    .tag-default {
+      font-size: 72px !important;
+    }
+  </style>
+</head>
+<body>
 <div class="home-page">
   <div class="banner" *appShowAuthed="false">
     <div class="container">
-      <h1 class="logo-font">conduit</h1>
-      <p>A place to share your <i>Angular</i> knowledge.</p>
+      <h1 class="logo-font" style="font-family: 'Lobster', sans-serif;">
+        conduit
+      </h1>
+      <p style="font-family: 'Noto Sans', sans-serif;">
+        A place to share your <i style="font-family: 'Roboto';">Angular</i>
+        knowledge.
+      </p>
     </div>
   </div>
 
@@ -10,7 +48,10 @@
     <div class="row">
       <div class="col-md-9">
         <div class="feed-toggle">
-          <ul class="nav nav-pills outline-active">
+          <ul
+            class="nav nav-pills outline-active"
+            style="font-family: 'Roboto', sans-serif;"
+          >
             <li class="nav-item">
               <a
                 class="nav-link"
@@ -24,8 +65,9 @@
               <a
                 class="nav-link"
                 [ngClass]="{
-                  active: listConfig.type === 'all' && !listConfig.filters.tag
-                }"
+                    active: listConfig.type === 'all' &&
+                    !listConfig.filters.tag
+                  }"
                 (click)="setListTo('all')"
               >
                 Global Feed
@@ -51,6 +93,7 @@
               *ngFor="let tag of tags"
               (click)="setListTo('all', { tag: tag })"
               class="tag-default tag-pill"
+              style="font-family: 'Roboto', sans-serif;"
             >
               {{ tag }}
             </a>
@@ -66,3 +109,4 @@
     </div>
   </div>
 </div>
+</body>
