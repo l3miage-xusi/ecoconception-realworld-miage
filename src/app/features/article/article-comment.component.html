@@ -9,7 +9,11 @@
       class="comment-author"
       [routerLink]="['/profile', comment.author.username]"
     >
-      <img [src]="comment.author.image" class="comment-author-img" />
+      <img
+        [src]="comment.author.image"
+        class="comment-author-img"
+        style="width: 300px; height: 200px"
+      />
     </a>
     &nbsp;
     <a
