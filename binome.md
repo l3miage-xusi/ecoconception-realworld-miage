@@ -1,9 +1,9 @@
 Inscrivez ici le nom de votre binôme 
 
 Propriétaire repo git :
-- Nom : 
-- Prénom :
+- Nom : xu
+- Prénom : sicong
 
 Binome :
-- Nom :
-- Prénom :
+- Nom : wyss
+- Prénom : marie
