@@ -23,3 +23,72 @@
     </ul>
   </a>
 </div>
+<style>
+  .article-preview {
+    animation: fadeIn 5s infinite;
+  }
+
+  h1 {
+    animation: colorChange 3s infinite;
+  }
+
+  .preview-link {
+    animation: slideDown 2s infinite;
+  }
+
+  .tag-list {
+    animation: rotate 4s linear infinite;
+  }
+
+  .tag-default {
+    animation: blink 1s steps(2, start) infinite;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes colorChange {
+    0% {
+      color: red;
+    }
+    50% {
+      color: green;
+    }
+    100% {
+      color: blue;
+    }
+  }
+
+  @keyframes slideDown {
+    0% {
+      transform: translateY(-10px);
+    }
+    50% {
+      transform: translateY(10px);
+    }
+    100% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+</style>
