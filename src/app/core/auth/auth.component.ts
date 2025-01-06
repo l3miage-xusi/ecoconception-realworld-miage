@@ -4,14 +4,15 @@ import {
   FormGroup,
   FormControl,
   ReactiveFormsModule,
+  FormsModule,
 } from "@angular/forms";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
-import { NgIf } from "@angular/common";
+import { NgIf, NgForOf } from "@angular/common";
 import { ListErrorsComponent } from "../../shared/list-errors.component";
 import { Errors } from "../models/errors.model";
 import { UserService } from "../services/user.service";
-import { takeUntil } from "rxjs/operators";
-import { Subject } from "rxjs";
+import { HttpClientModule } from "@angular/common/http";
+import * as RxJS from "rxjs";
 
 interface AuthForm {
   email: FormControl<string>;
@@ -22,7 +23,14 @@ interface AuthForm {
 @Component({
   selector: "app-auth-page",
   templateUrl: "./auth.component.html",
-  imports: [RouterLink, NgIf, ListErrorsComponent, ReactiveFormsModule],
+  imports: [
+    RouterLink,
+    NgIf,
+    NgForOf,
+    ListErrorsComponent,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
   standalone: true,
 })
 export class AuthComponent implements OnInit, OnDestroy {
@@ -31,14 +39,13 @@ export class AuthComponent implements OnInit, OnDestroy {
   errors: Errors = { errors: {} };
   isSubmitting = false;
   authForm: FormGroup<AuthForm>;
-  destroy$ = new Subject<void>();
+  destroy$ = new RxJS.Subject<void>();
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly userService: UserService
   ) {
-    // use FormBuilder to create a form group
     this.authForm = new FormGroup<AuthForm>({
       email: new FormControl("", {
         validators: [Validators.required],
@@ -87,7 +94,7 @@ export class AuthComponent implements OnInit, OnDestroy {
             }
           );
 
-    observable.pipe(takeUntil(this.destroy$)).subscribe({
+    observable.pipe(RxJS.takeUntil(this.destroy$)).subscribe({
       next: () => void this.router.navigate(["/"]),
       error: (err) => {
         this.errors = err;

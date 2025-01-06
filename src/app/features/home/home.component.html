@@ -1,68 +1,111 @@
-<div class="home-page">
-  <div class="banner" *appShowAuthed="false">
-    <div class="container">
-      <h1 class="logo-font">conduit</h1>
-      <p>A place to share your <i>Angular</i> knowledge.</p>
-    </div>
-  </div>
-
-  <div class="container page">
-    <div class="row">
-      <div class="col-md-9">
-        <div class="feed-toggle">
-          <ul class="nav nav-pills outline-active">
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                [ngClass]="{ active: listConfig.type === 'feed' }"
-                (click)="setListTo('feed')"
-              >
-                Your Feed
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                [ngClass]="{
-                  active: listConfig.type === 'all' && !listConfig.filters.tag
-                }"
-                (click)="setListTo('all')"
-              >
-                Global Feed
-              </a>
-            </li>
-            <li class="nav-item" [hidden]="!listConfig.filters.tag">
-              <a class="nav-link active">
-                <i class="ion-pound"></i> {{ listConfig.filters.tag }}
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <app-article-list [config]="listConfig"></app-article-list>
+<head>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lobster&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&subset=cyrillic,latin-ext"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      font-size: 72px !important;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    a,
+    .nav-link,
+    .tag-list,
+    .tag-default {
+      font-size: 72px !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="home-page">
+    <div class="banner" *appShowAuthed="false">
+      <div class="container">
+        <h1 class="logo-font" style="font-family: 'Lobster', sans-serif">
+          conduit
+        </h1>
+        <p style="font-family: 'Noto Sans', sans-serif">
+          A place to share your <i style="font-family: 'Roboto'">Angular</i>
+          knowledge.
+        </p>
       </div>
+    </div>
 
-      <div class="col-md-3" *rxLet="tags$; let tags">
-        <div class="sidebar">
-          <p>Popular Tags</p>
-
-          <div class="tag-list">
-            <a
-              *ngFor="let tag of tags"
-              (click)="setListTo('all', { tag: tag })"
-              class="tag-default tag-pill"
+    <div class="container page">
+      <div class="row">
+        <div class="col-md-9">
+          <div class="feed-toggle">
+            <ul
+              class="nav nav-pills outline-active"
+              style="font-family: 'Roboto', sans-serif"
             >
-              {{ tag }}
-            </a>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  [ngClass]="{ active: listConfig.type === 'feed' }"
+                  (click)="setListTo('feed')"
+                >
+                  Your Feed
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  [ngClass]="{
+                    active: listConfig.type === 'all' && !listConfig.filters.tag
+                  }"
+                  (click)="setListTo('all')"
+                >
+                  Global Feed
+                </a>
+              </li>
+              <li class="nav-item" [hidden]="!listConfig.filters.tag">
+                <a class="nav-link active">
+                  <i class="ion-pound"></i> {{ listConfig.filters.tag }}
+                </a>
+              </li>
+            </ul>
           </div>
 
-          <div [hidden]="tagsLoaded">Loading tags...</div>
+          <app-article-list [config]="listConfig"></app-article-list>
+        </div>
 
-          <div [hidden]="!tagsLoaded || tags.length > 0">
-            No tags are here... yet.
+        <div class="col-md-3" *rxLet="tags$; let tags">
+          <div class="sidebar">
+            <p>Popular Tags</p>
+
+            <div class="tag-list">
+              <a
+                *ngFor="let tag of tags"
+                (click)="setListTo('all', { tag: tag })"
+                class="tag-default tag-pill"
+                style="font-family: 'Roboto', sans-serif"
+              >
+                {{ tag }}
+              </a>
+            </div>
+
+            <div [hidden]="tagsLoaded">Loading tags...</div>
+
+            <div [hidden]="!tagsLoaded || tags.length > 0">
+              No tags are here... yet.
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</body>

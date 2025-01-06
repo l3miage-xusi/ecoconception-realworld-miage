@@ -1,13 +1,13 @@
-import { NgForOf } from "@angular/common";
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import * as RxJS from "rxjs";
 import {
+  FormsModule,
+  ReactiveFormsModule,
   FormControl,
   FormGroup,
-  ReactiveFormsModule,
-  UntypedFormGroup,
 } from "@angular/forms";
+import { NgForOf, NgIf, NgSwitch } from "@angular/common";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Subject, combineLatest } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { Errors } from "../../core/models/errors.model";
 import { ArticlesService } from "../../core/services/articles.service";
@@ -23,12 +23,12 @@ interface ArticleForm {
 @Component({
   selector: "app-editor-page",
   templateUrl: "./editor.component.html",
-  imports: [ListErrorsComponent, ReactiveFormsModule, NgForOf],
+  imports: [ListErrorsComponent, ReactiveFormsModule, NgForOf, FormsModule],
   standalone: true,
 })
 export class EditorComponent implements OnInit, OnDestroy {
   tagList: string[] = [];
-  articleForm: UntypedFormGroup = new FormGroup<ArticleForm>({
+  articleForm: FormGroup<ArticleForm> = new FormGroup<ArticleForm>({
     title: new FormControl("", { nonNullable: true }),
     description: new FormControl("", { nonNullable: true }),
     body: new FormControl("", { nonNullable: true }),
@@ -37,7 +37,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   errors: Errors | null = null;
   isSubmitting = false;
-  destroy$ = new Subject<void>();
+  destroy$ = new RxJS.Subject<void>();
 
   constructor(
     private readonly articleService: ArticlesService,
@@ -48,11 +48,11 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (this.route.snapshot.params["slug"]) {
-      combineLatest([
+      RxJS.combineLatest([
         this.articleService.get(this.route.snapshot.params["slug"]),
         this.userService.getCurrentUser(),
       ])
-        .pipe(takeUntil(this.destroy$))
+        .pipe(RxJS.takeUntil(this.destroy$))
         .subscribe(([article, { user }]) => {
           if (user.username === article.author.username) {
             this.tagList = article.tagList;
@@ -70,13 +70,10 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   addTag() {
-    // retrieve tag control
     const tag = this.tagField.value;
-    // only add tag if it does not exist yet
     if (tag != null && tag.trim() !== "" && this.tagList.indexOf(tag) < 0) {
       this.tagList.push(tag);
     }
-    // clear the input
     this.tagField.reset("");
   }
 
@@ -87,16 +84,14 @@ export class EditorComponent implements OnInit, OnDestroy {
   submitForm(): void {
     this.isSubmitting = true;
 
-    // update any single tag
     this.addTag();
 
-    // post the changes
     this.articleService
       .create({
         ...this.articleForm.value,
         tagList: this.tagList,
       })
-      .pipe(takeUntil(this.destroy$))
+      .pipe(RxJS.takeUntil(this.destroy$))
       .subscribe({
         next: (article) => this.router.navigate(["/article/", article.slug]),
         error: (err) => {
